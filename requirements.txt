@@ -1,0 +1,15 @@
+# Milestone 2 (and Milestone 1 detection parts)
+ultralytics>=8.1
+torch>=2.1
+torchvision>=0.16
+pandas
+numpy
+matplotlib
+pillow
+pyyaml
+scikit-learn
+tqdm
+# Milestone 1 only (bounding-box generation and Faster R-CNN evaluation)
+transformers
+torchmetrics
+pycocotools

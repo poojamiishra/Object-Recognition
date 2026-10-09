@@ -1,0 +1,17 @@
+# data and generated datasets (the class dataset is shared via the course Google Drive)
+*.zip
+prep_224/
+multiobject_ds/
+yolo_ds/
+datasets/
+runs/
+
+# model weights (published as a GitHub Release instead)
+*.pt
+*.pth
+
+# notebooks / python / OS
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.DS_Store
