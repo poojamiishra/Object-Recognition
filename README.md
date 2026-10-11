@@ -7,6 +7,7 @@ An end-to-end deep learning project for recognizing and locating everyday object
 - Cleans and validates a class-collected image dataset, removes exact duplicates, resizes images, and creates stratified train, validation, and test splits.
 - Compares four approaches for single-object recognition: a custom CNN, EfficientNet-B0, YOLO11s, and Faster R-CNN.
 - Builds synthetic multi-object scenes containing 2–9 objects with class-balanced sampling, randomized layouts, scaling, positioning, flipping, color jitter, and backgrounds.
+- Verifies the trained detector on standard gap-free 2×2 and 3×3 grids made from unchanged 224×224 held-out images, matching the Milestone 2 clarification.
 - Fine-tunes YOLOv8s to return each object's class ID, confidence score, and bounding box.
 - Evaluates classification quality, localization quality, inference speed, and performance as scene complexity increases.
 
@@ -74,6 +75,35 @@ python predict.py \
 
 The output includes the detected class ID, confidence score, and bounding-box coordinates for every object.
 
+## Standard 2×2 and 3×3 grid verification
+
+The Milestone 2 notebook now contains a separate held-out verification section for the standard layouts expected on demo day. It generates 50 exact 2×2 grids and 50 exact 3×3 grids from test-split photos. Every tile remains 224×224 and is placed directly beside its neighbors, with no gaps, padding, empty cells, scaling, movement, flipping, or color jitter.
+
+The section reports precision, recall, F1, localization recall, object-count accuracy, and exact-image accuracy by layout. It also saves one 2×2 and one 3×3 input, annotated model prediction, prediction CSV, and prediction-versus-ground-truth comparison under `standard_grid_evaluation/` in the configured Google Drive output directory.
+
+For a quick standalone sample, provide either a directory of prepared 224×224 images or exactly 4/9 image paths:
+
+```bash
+cd milestone2
+
+# Deterministically select four distinct-object tiles when Object IDs are present in directory names.
+python standard_grid_demo.py \
+  --grid-size 2 \
+  --source-dir /path/to/test_224 \
+  --weights yolov8s_multiobject_best.pt \
+  --output-dir standard_grid_outputs
+
+# Supply nine images explicitly in row-major order.
+python standard_grid_demo.py \
+  --grid-size 3 \
+  --images image1.jpg image2.jpg image3.jpg image4.jpg image5.jpg \
+           image6.jpg image7.jpg image8.jpg image9.jpg \
+  --weights yolov8s_multiobject_best.pt \
+  --output-dir standard_grid_outputs
+```
+
+The existing randomized layouts are intentionally retained: the clarification asks for a mixture of layouts and object counts, while the additional standard-grid evaluation confirms readiness for the primary 2×2 and 3×3 demo formats. The standard-grid results must be generated before adding numerical claims to the report.
+
 ## Repository structure
 
 ```text
@@ -84,6 +114,7 @@ The output includes the detected class ID, confidence score, and bounding-box co
 ├── milestone2/
 │   ├── Milestone2_YOLOv8_MultiObject.ipynb
 │   ├── predict.py
+│   ├── standard_grid_demo.py
 │   └── object_ids.py
 └── reports/
     ├── Milestone1_Report.pdf
